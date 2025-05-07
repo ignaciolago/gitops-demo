@@ -4,23 +4,27 @@ metadata:
   name: demo-vm
 spec:
   generators:
-  # Only select external clusters, excludes local cluster
-  - clusters:
-      selector:
-        matchLabels:
-          argocd.argoproj.io/secret-type: cluster
+  generators:
+  - list:
+      elements:
+        - name: dev
+          env: dev
+          server: https://kubernetes.default.svc
+        - name: prod
+          env: prod
+          server: https://kubernetes.default.svc
   template:
     metadata:
-      name: "{{nameNormalized}}-demo-vm"
+      name: "{{name}}-demo-vm"
     spec:
       project: default
       source:
-        repoURL: https://github.com/0xFelix/gitops-demo.git
+        repoURL: https://github.com/automationiberia/gitops-demo.git
         targetRevision: HEAD
-        path: "applicationsets/demo-vm/kustomize/{{metadata.labels.env}}"
+        path: "applicationsets/demo-vm/kustomize/{{env}}"
         kustomize:
           commonAnnotations:
-            managed-cluster: "{{nameNormalized}}"
+            managed-cluster: "{{name}}"
       destination:
         server: "{{server}}"
         namespace: demo-vm
