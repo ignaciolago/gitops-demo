@@ -4,7 +4,6 @@ metadata:
   name: demo-vm
 spec:
   generators:
-  generators:
   - list:
       elements:
         - name: dev
