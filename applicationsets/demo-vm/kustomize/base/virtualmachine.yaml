@@ -32,4 +32,6 @@ spec:
             user: fedora
             password: fedora
             chpasswd: { expire: False }
+            runcmd:
+              - echo 'Running on $hostname' > /tmp/cloud_name
         name: cloudinitdisk
