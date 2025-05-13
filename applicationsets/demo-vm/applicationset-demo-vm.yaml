@@ -18,7 +18,7 @@ spec:
     spec:
       project: default
       source:
-        repoURL: https://github.com/automationiberia/gitops-demo.git
+        repoURL: https://github.com/ignaciolago/gitops-demo.git
         targetRevision: HEAD
         path: "applicationsets/demo-vm/kustomize/{{env}}"
         kustomize:
