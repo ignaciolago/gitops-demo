@@ -1,49 +1,27 @@
----
 apiVersion: kubevirt.io/v1
 kind: VirtualMachine
 metadata:
-  annotations:
-    kubevirt.io/latest-observed-api-version: v1
-    kubevirt.io/storage-observed-api-version: v1 
   name: rhel9-quotes-backend
-  finalizers:
-    - kubevirt.io/virtualMachineControllerFinalize
-  labels:
-    app: rhel9-quotes-backend
-    kubevirt.io/dynamic-credentials-support: 'true'
-    vm.kubevirt.io/template: rhel9-server-small
-    vm.kubevirt.io/template.namespace: openshift
-    vm.kubevirt.io/template.revision: '1'
-    vm.kubevirt.io/template.version: v0.31.1
 spec:
   running: true
+  dataVolumeTemplates:
+  - metadata:
+      name: rhel9-quotes-backend
+    spec:
+      sourceRef:
+        kind: DataSource
+        name: quotes-full-vm
+        namespace: openshift-virtualization-os-images
+      storage:
+        resources: {}
   template:
     spec:
-      domain:
-        cpu:
-          cores: 1
-          sockets: 1
-          threads: 1
-        devices:
-          disks:
-            - disk:
-                bus: virtio
-              name: rootdisk
-            - disk:
-                bus: virtio
-              name: cloudinitdisk
-          rng: {}
-        features:
-          acpi: {}
-          smm:
-            enabled: true
-        firmware:
-          bootloader:
-            efi: {}
-        memory:
-          guest: 2Gi
-        resources: {}
       terminationGracePeriodSeconds: 180
+      domain:
+        devices:
+          rng: {}
+        memory:
+          guest: 1024M
       volumes:
         - dataVolume:
             name: rhel9-quotes-backend
