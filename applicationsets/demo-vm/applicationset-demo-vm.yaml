@@ -17,7 +17,7 @@ spec:
     metadata:
       name: "{{name}}-quotes-backend"
     spec:
-      project: openshift-gitops
+      project: default
       source:
         repoURL: https://github.com/ignaciolago/gitops-demo.git
         targetRevision: quotes
