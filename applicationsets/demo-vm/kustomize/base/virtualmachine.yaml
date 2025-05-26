@@ -6,7 +6,6 @@ metadata:
     kubevirt.io/latest-observed-api-version: v1
     kubevirt.io/storage-observed-api-version: v1 
   name: rhel9-quotes-backend
-  namespace: quotes-vms
   finalizers:
     - kubevirt.io/virtualMachineControllerFinalize
   labels:
