@@ -16,7 +16,7 @@ spec:
     metadata:
       name: "{{name}}-demo-vm"
     spec:
-      project: default
+      project: openshift-gitops
       source:
         repoURL: https://github.com/ignaciolago/gitops-demo.git
         targetRevision: quotes
