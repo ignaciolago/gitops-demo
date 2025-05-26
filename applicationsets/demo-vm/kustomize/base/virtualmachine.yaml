@@ -5,12 +5,12 @@ metadata:
   annotations:
     kubevirt.io/latest-observed-api-version: v1
     kubevirt.io/storage-observed-api-version: v1 
-  name: rhel9-quotes-vintage
-  namespace: quotes-vintage
+  name: rhel9-quotes-backend
+  namespace: quotes-vms
   finalizers:
     - kubevirt.io/virtualMachineControllerFinalize
   labels:
-    app: rhel9-quotes-vintage
+    app: rhel9-quotes-backend
     kubevirt.io/dynamic-credentials-support: 'true'
     vm.kubevirt.io/template: rhel9-server-small
     vm.kubevirt.io/template.namespace: openshift
@@ -59,7 +59,7 @@ spec:
       terminationGracePeriodSeconds: 180
       volumes:
         - dataVolume:
-            name: rhel9-quotes-vintage
+            name: rhel9-quotes-backend
           name: rootdisk
         - cloudInitNoCloud:
             userData: |-
