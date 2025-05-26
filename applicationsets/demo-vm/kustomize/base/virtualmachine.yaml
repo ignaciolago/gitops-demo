@@ -52,9 +52,6 @@ spec:
         memory:
           guest: 2Gi
         resources: {}
-      networks:
-        - name: default
-          pod: {}
       terminationGracePeriodSeconds: 180
       volumes:
         - dataVolume:
