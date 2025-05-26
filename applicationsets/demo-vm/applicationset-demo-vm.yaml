@@ -19,7 +19,7 @@ spec:
       project: default
       source:
         repoURL: https://github.com/ignaciolago/gitops-demo.git
-        targetRevision: HEAD
+        targetRevision: quotes
         path: "applicationsets/demo-vm/kustomize/{{env}}"
         kustomize:
           commonAnnotations:

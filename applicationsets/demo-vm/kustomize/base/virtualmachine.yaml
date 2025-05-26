@@ -1,37 +1,70 @@
+---
 apiVersion: kubevirt.io/v1
 kind: VirtualMachine
 metadata:
-  name: demo-vm
+  annotations:
+    kubevirt.io/latest-observed-api-version: v1
+    kubevirt.io/storage-observed-api-version: v1 
+  name: rhel9-quotes-vintage
+  namespace: quotes-vintage
+  finalizers:
+    - kubevirt.io/virtualMachineControllerFinalize
+  labels:
+    app: rhel9-quotes-vintage
+    kubevirt.io/dynamic-credentials-support: 'true'
+    vm.kubevirt.io/template: rhel9-server-small
+    vm.kubevirt.io/template.namespace: openshift
+    vm.kubevirt.io/template.revision: '1'
+    vm.kubevirt.io/template.version: v0.31.1
 spec:
-  running: true
   dataVolumeTemplates:
-  - metadata:
-      name: demo-vm-ds-fedora
-    spec:
-      sourceRef:
-        kind: DataSource
-        name: fedora
-        namespace: openshift-virtualization-os-images
-      storage:
-        resources: {}
+    - metadata:
+        name: rhel9-quotes-vms
+      spec:
+        source:
+          pvc:
+            name: quotes-full-vm
+            namespace: openshift-virtualization-os-images
+        storage:
+          resources: {}
   template:
     spec:
-      terminationGracePeriodSeconds: 180
       domain:
+        cpu:
+          cores: 1
+          sockets: 1
+          threads: 1
         devices:
+          disks:
+            - disk:
+                bus: virtio
+              name: rootdisk
+            - disk:
+                bus: virtio
+              name: cloudinitdisk
           rng: {}
+        features:
+          acpi: {}
+          smm:
+            enabled: true
+        firmware:
+          bootloader:
+            efi: {}
         memory:
-          guest: 1024M
+          guest: 2Gi
+        resources: {}
+      networks:
+        - name: default
+          pod: {}
+      terminationGracePeriodSeconds: 180
       volumes:
-      - dataVolume:
-          name: demo-vm-ds-fedora
-        name: demo-vm-ds-fedora
-      - cloudInitNoCloud:
-          userData: |-
-            #cloud-config
-            user: fedora
-            password: fedora
-            chpasswd: { expire: False }
-            runcmd:
-              - echo 'Running on $hostname' > /tmp/cloud_name
-        name: cloudinitdisk
+        - dataVolume:
+            name: rhel9-quotes-vintage
+          name: rootdisk
+        - cloudInitNoCloud:
+            userData: |-
+              #cloud-config
+              user: cloud-user
+              password: 25nj-bpt1-cw4x
+              chpasswd: { expire: False }
+          name: cloudinitdisk
