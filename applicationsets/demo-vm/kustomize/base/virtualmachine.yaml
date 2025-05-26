@@ -16,16 +16,6 @@ metadata:
     vm.kubevirt.io/template.revision: '1'
     vm.kubevirt.io/template.version: v0.31.1
 spec:
-  dataVolumeTemplates:
-    - metadata:
-        name: rhel9-quotes-vms
-      spec:
-        source:
-          pvc:
-            name: quotes-full-vm
-            namespace: openshift-virtualization-os-images
-        storage:
-          resources: {}
   template:
     spec:
       domain:
