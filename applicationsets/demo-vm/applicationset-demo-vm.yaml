@@ -7,11 +7,11 @@ spec:
   generators:
   - list:
       elements:
-        - name: dev
-          env: dev
+        - name: backend
+          env: backend
           server: https://kubernetes.default.svc
-        - name: prod
-          env: prod
+        - name: frontend
+          env: frontend
           server: https://kubernetes.default.svc
   template:
     metadata:
