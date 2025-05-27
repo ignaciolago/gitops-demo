@@ -18,6 +18,10 @@ spec:
       storage:
         resources: {}
   template:
+    labels:
+      kubevirt.io/domain: rhel9-quotes-backend
+      kubevirt.io/size: small
+      network.kubevirt.io/headlessService: quotes-backend
     spec:
       terminationGracePeriodSeconds: 180
       domain:
@@ -57,7 +61,7 @@ spec:
   ipFamilyPolicy: SingleStack
   sessionAffinity: None
   selector:
-    network.kubevirt.io/headlessService: headless
+    network.kubevirt.io/headlessService: quotes-backend
 ---
 apiVersion: route.openshift.io/v1
 kind: Route
