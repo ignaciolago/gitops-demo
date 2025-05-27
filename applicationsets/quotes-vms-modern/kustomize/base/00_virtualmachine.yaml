@@ -61,7 +61,7 @@ spec:
   ipFamilyPolicy: SingleStack
   sessionAffinity: None
   selector:
-    network.kubevirt.io/headlessService: quotes-backend
+    vm.kubevirt.io/name: development-rhel9-quotes-backend
 ---
 apiVersion: route.openshift.io/v1
 kind: Route

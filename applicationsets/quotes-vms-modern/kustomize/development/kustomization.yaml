@@ -27,3 +27,10 @@ patches:
     target:
       kind: Route
       name: route-backend
+  - patch: |
+      - op: replace
+        path: /spec/selector/vm.kubevirt.io~1name
+        value: development-rhel9-quotes-backend
+    target:
+      kind: Service
+      name: headless-service-backend
