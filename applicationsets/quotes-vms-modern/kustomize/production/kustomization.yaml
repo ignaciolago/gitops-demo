@@ -4,7 +4,7 @@ kind: Kustomization
 bases:
   - ../base
 
-namePrefix: development-
+namePrefix: production-
 
 patches:
   - patch: |
@@ -16,14 +16,14 @@ patches:
   - patch: |
       - op: replace
         path: /spec/to/name
-        value: {{ namePrefix }}-quotes-frontend
+        value: production-quotes-frontend
     target:
       kind: Route
       name: quotes-frontend
   - patch: |
       - op: replace
         path: /spec/to/name
-        value: {{ namePrefix }}-headless-service-backend
+        value: production-headless-service-backend
     target:
       kind: Route
       name: route-backend

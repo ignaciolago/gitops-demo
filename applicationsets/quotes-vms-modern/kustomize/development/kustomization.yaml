@@ -16,14 +16,14 @@ patches:
   - patch: |
       - op: replace
         path: /spec/to/name
-        value: {{ namePrefix }}-quotes-frontend
+        value: development-quotes-frontend
     target:
       kind: Route
       name: quotes-frontend
   - patch: |
       - op: replace
         path: /spec/to/name
-        value: {{ namePrefix }}-headless-service-backend
+        value: development-headless-service-backend
     target:
       kind: Route
       name: route-backend
