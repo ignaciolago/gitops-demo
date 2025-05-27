@@ -13,3 +13,10 @@ patches:
         value: 2048M
     target:
       kind: VirtualMachine
+  - patch: |
+      - op: replace
+        path: /spec/to/name
+        value: development-quotes-service
+    target:
+      kind: Route
+      name: quotes-frontend
