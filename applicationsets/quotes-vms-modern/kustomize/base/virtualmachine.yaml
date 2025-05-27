@@ -1,0 +1,35 @@
+apiVersion: kubevirt.io/v1
+kind: VirtualMachine
+metadata:
+  name: rhel9-quotes-backend
+spec:
+  running: true
+  dataVolumeTemplates:
+  - metadata:
+      name: rhel9-quotes-backend
+    spec:
+      sourceRef:
+        kind: DataSource
+        name: quotes-full-vm
+        namespace: openshift-virtualization-os-images
+      storage:
+        resources: {}
+  template:
+    spec:
+      terminationGracePeriodSeconds: 180
+      domain:
+        devices:
+          rng: {}
+        memory:
+          guest: 1024M
+      volumes:
+        - dataVolume:
+            name: rhel9-quotes-backend
+          name: rootdisk
+        - cloudInitNoCloud:
+            userData: |-
+              #cloud-config
+              user: cloud-user
+              password: 25nj-bpt1-cw4x
+              chpasswd: { expire: False }
+          name: cloudinitdisk

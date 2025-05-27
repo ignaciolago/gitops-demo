@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: quotes-backend
+  name: quotes-vms-legacy
   namespace: openshift-gitops
 spec:
   generators:
@@ -15,19 +15,19 @@ spec:
           server: https://kubernetes.default.svc
   template:
     metadata:
-      name: "{{name}}-quotes-backend"
+      name: "{{name}}-quotes-vms-legacy"
     spec:
       project: default
       source:
         repoURL: https://github.com/ignaciolago/gitops-demo.git
         targetRevision: quotes
-        path: "applicationsets/demo-vm/kustomize/{{env}}"
+        path: "applicationsets/quotes-vms-legacy/kustomize/{{env}}"
         kustomize:
           commonAnnotations:
             managed-cluster: "{{name}}"
       destination:
         server: "{{server}}"
-        namespace: "{{name}}-quotes-backend"
+        namespace: "{{name}}-quotes-vms-legacy"
       syncPolicy:
         syncOptions:
         - CreateNamespace=true
