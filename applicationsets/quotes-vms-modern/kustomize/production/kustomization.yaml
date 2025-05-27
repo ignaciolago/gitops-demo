@@ -34,3 +34,12 @@ patches:
     target:
       kind: Service
       name: headless-service-backend
+  - patch: |
+      - op: replace
+        path: /spec/template/spec/containers/0/args/0
+        value: |
+          URL=$(oc get route production-route-backend -o jsonpath='{.status.url}');
+          oc create configmap environment-variables --from-literal=VITE_BACKEND_URL="$URL/quote" --dry-run=client -o yaml | oc apply -f -
+    target:
+      kind: Job
+      name: configmap-pre-hook
