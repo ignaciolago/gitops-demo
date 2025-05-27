@@ -1,0 +1,78 @@
+---
+apiVersion: kubevirt.io/v1
+kind: VirtualMachine
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+  name: rhel9-quotes-backend
+spec:
+  running: true
+  dataVolumeTemplates:
+  - metadata:
+      name: rhel9-quotes-backend
+    spec:
+      sourceRef:
+        kind: DataSource
+        name: quotes-full-vm
+        namespace: openshift-virtualization-os-images
+      storage:
+        resources: {}
+  template:
+    spec:
+      terminationGracePeriodSeconds: 180
+      domain:
+        devices:
+          rng: {}
+        memory:
+          guest: 1024M
+      volumes:
+        - dataVolume:
+            name: rhel9-quotes-backend
+          name: rootdisk
+        - cloudInitNoCloud:
+            userData: |-
+              #cloud-config
+              user: cloud-user
+              password: 25nj-bpt1-cw4x
+              chpasswd: { expire: False }
+          name: cloudinitdisk
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: headless-service-backend
+spec:
+  clusterIP: None
+  ipFamilies:
+    - IPv4
+  ports:
+    - name: headless
+      protocol: TCP
+      port: 8080
+      targetPort: 8080
+  internalTrafficPolicy: Cluster
+  clusterIPs:
+    - None
+  type: ClusterIP
+  ipFamilyPolicy: SingleStack
+  sessionAffinity: None
+  selector:
+    network.kubevirt.io/headlessService: headless
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: route-backend
+spec:
+  path: /
+  to:
+    name: headless-service-backend
+    weight: 100
+    kind: Service
+  host: ''
+  tls:
+    insecureEdgeTerminationPolicy: Redirect
+    termination: edge
+  port:
+    targetPort: headless
+  alternateBackends: []
