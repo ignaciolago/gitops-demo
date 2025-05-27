@@ -16,7 +16,7 @@ patches:
   - patch: |
       - op: replace
         path: /spec/to/name
-        value: development-quotes-service
+        value: development-quotes-frontend
     target:
       kind: Route
       name: quotes-frontend
