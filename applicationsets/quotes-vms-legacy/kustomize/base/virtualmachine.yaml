@@ -1,3 +1,4 @@
+---
 apiVersion: kubevirt.io/v1
 kind: VirtualMachine
 metadata:
@@ -33,3 +34,43 @@ spec:
               password: 25nj-bpt1-cw4x
               chpasswd: { expire: False }
           name: cloudinitdisk
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: headless-service
+spec:
+  clusterIP: None
+  ipFamilies:
+    - IPv4
+  ports:
+    - name: headless
+      protocol: TCP
+      port: 8080
+      targetPort: 8080
+  internalTrafficPolicy: Cluster
+  clusterIPs:
+    - None
+  type: ClusterIP
+  ipFamilyPolicy: SingleStack
+  sessionAffinity: None
+  selector:
+    network.kubevirt.io/headlessService: headless
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: route
+spec:
+  path: /
+  to:
+    name: headless-service
+    weight: 100
+    kind: Service
+  host: ''
+  tls:
+    insecureEdgeTerminationPolicy: Redirect
+    termination: edge
+  port:
+    targetPort: headless
+  alternateBackends: []

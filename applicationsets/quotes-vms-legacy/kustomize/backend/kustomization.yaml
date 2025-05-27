@@ -13,3 +13,24 @@ patches:
         value: 2048M
     target:
       kind: VirtualMachine
+  - patch: |
+      - op: replace
+        path: /spec/ports/0/port
+        value: 8080
+    target:
+      kind: Service
+      name: headless-service
+  - patch: |
+      - op: replace
+        path: /spec/ports/0/targetPort
+        value: 8080
+    target:
+      kind: Service
+      name: headless-service
+  - patch: |
+      - op: replace
+        path: /spec/to/name
+        value: {{ namePrefix }}-headless-service
+    target:
+      kind: Route
+      name: route # Target the Route
