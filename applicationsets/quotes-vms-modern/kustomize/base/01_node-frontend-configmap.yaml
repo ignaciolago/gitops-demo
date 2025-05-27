@@ -28,6 +28,6 @@ spec:
         command: ["sh", "-c"]
         args:
           - >
-            URL=$(oc get route route-backend -o jsonpath='{.status.url}');
+            URL=$(oc get route development-route-backend -o jsonpath='{.status.url}');
             oc create configmap environment-variables --from-literal=VITE_BACKEND_URL="$URL/quote" --dry-run=client -o yaml | oc apply -f -      
       restartPolicy: Never
